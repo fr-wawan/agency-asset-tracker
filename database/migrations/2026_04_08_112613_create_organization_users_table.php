@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('organization_users', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('organization_id')
-                ->constrained()
-                ->cascadeOnDelete();
+            $table->organizationId();
             $table->foreignUlid('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
