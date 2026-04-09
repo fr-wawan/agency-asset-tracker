@@ -9,17 +9,13 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    layout: (name) => {
-        switch (true) {
-            case name === 'welcome':
-                return null;
-            case name.startsWith('auth/'):
-                return AuthLayout;
-            case name.startsWith('settings/'):
-                return [AppLayout, SettingsLayout];
-            default:
-                return AppLayout;
+    resolve: (name) => {
+        const pages = import.meta.glob('./pages/**/*.tsx', { eager: true }) as any;
+        const page = pages[`./pages/${name}.tsx`];
+        if (page.default.layout === undefined) {
+            page.default.layout = AppLayout;
         }
+        return page;
     },
     strictMode: true,
     withApp(app) {
