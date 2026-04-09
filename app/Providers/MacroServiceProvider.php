@@ -30,6 +30,11 @@ class MacroServiceProvider extends ServiceProvider
             $this->foreignUlid('updated_by')->nullable()->constrained('users')->nullOnDelete();
         });
 
+        Blueprint::macro('ulidPrimaryKey', function () {
+            /** @var Blueprint $this */
+            $this->ulid('id')->primary();
+        });
+
         Blueprint::macro('blamedBy', function () {
             /** @var Blueprint $this */
             $this->createdBy();

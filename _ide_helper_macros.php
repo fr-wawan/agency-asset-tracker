@@ -11,6 +11,7 @@ namespace Illuminate\Database\Schema;
 class Blueprint
 {
     public function organizationId(bool $nullable = false): ForeignKeyDefinition {}
+    public function ulidPrimaryKey(): void {}
     public function createdBy(): void {}
     public function updatedBy(): void {}
     public function blamedBy(): void {}
