@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Concerns\BelongsToOrganization;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 
 class Asset extends Model
 {
-    use HasUlids;
+    use HasUlids, BelongsToOrganization;
 }
