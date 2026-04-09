@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('organization_users', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->ulidPrimaryKey();
             $table->organizationId();
             $table->foreignUlid('user_id')
                 ->constrained()
