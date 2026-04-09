@@ -11,25 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->ulidPrimaryKey();
-
             $table->organizationId();
-
-            $table->string('name');
-            $table->string('slug');
-            $table->string('contact_email')
-                ->nullable();
-
+            $table->string('plan_interval');
+            $table->string('plan');
             $table->string('status');
-            $table->text('notes')
+            $table->timestamp('trial_ends_at')
                 ->nullable();
-            $table->createdBy();
-
-            $table->softDeletes();
+            $table->timestamp('current_period_start');
+            $table->timestamp('current_period_end');
+            $table->timestamp('cancelled_at')
+                ->nullable();
             $table->timestamps();
-
-            $table->unique(['organization_id', 'slug']);
         });
     }
 
@@ -38,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('subscriptions');
     }
 };
