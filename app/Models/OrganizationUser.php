@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\Organization\OrganizationRole;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @property string $id
  * @property string $organization_id
  * @property string $user_id
- * @property string $role
+ * @property OrganizationRole $role
  * @property string|null $invited_by
- * @property string|null $joined_at
+ * @property \Carbon\CarbonImmutable|null $joined_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganizationUser newModelQuery()
@@ -29,9 +31,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganizationUser whereUserId($value)
  * @mixin \Eloquent
  */
-#[Table('organization_user')]
-#[Guarded(['id'])]
-class OrganizationUser extends Model
+class OrganizationUser extends Pivot
 {
     use HasUlids;
+
+    protected $casts = [
+        'role' => OrganizationRole::class,
+        'joined_at' => 'datetime',
+    ];
 }

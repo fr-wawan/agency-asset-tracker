@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Onboarding;
 
-use App\Data\Organization\CreateOrganizationData;
+use App\Actions\Invitation\SendInvitationAction;
+use App\Data\Invitation\SendInvitationData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Inertia\Inertia;
-use App\Actions\Organization\CreateOrganizationAction;
 
-class OrganizationOnboardingController extends Controller
+class InvitationOnboardingController extends Controller
 {
     public function create(): Response
     {
-        return Inertia::render('onboarding/organization');
+        return Inertia::render('onboarding/invite');
     }
 
-    public function store(CreateOrganizationData $data, CreateOrganizationAction $action)
+    public function store(SendInvitationData $data, SendInvitationAction $action)
     {
         $action->handle(Auth::user(), $data);
 

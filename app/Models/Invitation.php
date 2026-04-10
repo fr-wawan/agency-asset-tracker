@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Concerns\BelongsToOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property string $id
@@ -16,22 +18,35 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
  * @property string|null $accepted_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereAcceptedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereExpiresAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereInvitedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereOrganizationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereRole($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invitation whereUpdatedAt($value)
+ * @property-read \App\Models\Organization $organization
+ * @method static Builder<static>|Invitation newModelQuery()
+ * @method static Builder<static>|Invitation newQuery()
+ * @method static Builder<static>|Invitation notAccepted()
+ * @method static Builder<static>|Invitation notExpired()
+ * @method static Builder<static>|Invitation query()
+ * @method static Builder<static>|Invitation whereAcceptedAt($value)
+ * @method static Builder<static>|Invitation whereCreatedAt($value)
+ * @method static Builder<static>|Invitation whereEmail($value)
+ * @method static Builder<static>|Invitation whereExpiresAt($value)
+ * @method static Builder<static>|Invitation whereId($value)
+ * @method static Builder<static>|Invitation whereInvitedBy($value)
+ * @method static Builder<static>|Invitation whereOrganizationId($value)
+ * @method static Builder<static>|Invitation whereRole($value)
+ * @method static Builder<static>|Invitation whereToken($value)
+ * @method static Builder<static>|Invitation whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Invitation extends Model
 {
-    use HasUlids;
+    use HasUlids, BelongsToOrganization;
+
+    public function scopeNotAccepted(Builder $query): Builder
+    {
+        return $query->whereNull('accepted_at');
+    }
+
+    public function scopeNotExpired(Builder $query): Builder
+    {
+        return $query->where('expires_at', '>', now());
+    }
 }

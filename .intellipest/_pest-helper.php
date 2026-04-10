@@ -41,21 +41,20 @@ namespace {
      * @return \Pest\Concerns\Expectable|\Pest\PendingCalls\TestCall|\Tests\TestCase|mixed
      */
     function it(string $description, ?Closure $closure = null): \Pest\PendingCalls\TestCall {}
-
 }
 
 namespace Pest {
 
-    class Expectation {
+    class Expectation
+    {
         public function toBeOne(): self {}
     }
-
 }
 
 namespace Pest\Expectations {
 
-    class OppositeExpectation {
+    class OppositeExpectation
+    {
         public function toBeOne(): self {}
     }
-
 }

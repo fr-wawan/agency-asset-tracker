@@ -27,6 +27,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property \Carbon\CarbonImmutable|null $two_factor_confirmed_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\Models\OrganizationUser|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Organization> $organizations
  * @property-read int|null $organizations_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -71,7 +72,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Organization::class)
             ->withPivot('role', 'joined_at')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->using(OrganizationUser::class);
+    }
+
+    public function currentOrganization(): ?Organization
+    {
+        return $this->organizations()->first();
     }
 
     public function hasOrganization(): bool
