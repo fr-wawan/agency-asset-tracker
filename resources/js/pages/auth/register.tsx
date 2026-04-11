@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
+import AuthLayout from '@/layouts/auth-layout';
 
 export default function Register() {
     return (
@@ -108,7 +109,5 @@ export default function Register() {
     );
 }
 
-Register.layout = {
-    title: 'Create an account',
-    description: 'Enter your details below to create your account',
-};
+Register.layout = (page: React.ReactNode) => <AuthLayout title="Create an account" description="Enter your details below to create your account" >{page}</AuthLayout>;
+

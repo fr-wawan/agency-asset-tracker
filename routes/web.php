@@ -10,8 +10,13 @@ Route::inertia('/', 'welcome', [
 ])->name('home');
 
 Route::middleware(['auth', 'verified'])->prefix('onboarding')->name('onboarding.')->group(function () {
-    Route::resource('organization', OrganizationOnboardingController::class)->only(['create', 'store']);
-    Route::resource('invite', InvitationOnboardingController::class)->only(['create']);
+    Route::resource('organization', OrganizationOnboardingController::class)
+        ->only(['create', 'store'])
+        ->middleware('onboarding.incomplete');
+
+    Route::resource('invite', InvitationOnboardingController::class)
+        ->only(['create'])
+        ->middleware('onboarding.complete');
 });
 
 Route::middleware(['auth', 'verified', 'onboarding.complete'])->group(function () {

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Middleware\EnsureOnboardingComplete;
+use App\Http\Middleware\Onboarding\EnsureOnboardingIncomplete;
+use App\Http\Middleware\Onboarding\EnsureOnboardingComplete;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ResolveTenant;
@@ -27,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'tenant' => ResolveTenant::class,
             'onboarding.complete' => EnsureOnboardingComplete::class,
+            'onboarding.incomplete' => EnsureOnboardingIncomplete::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

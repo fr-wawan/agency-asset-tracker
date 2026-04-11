@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Onboarding;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureOnboardingComplete
+class EnsureOnboardingIncomplete
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class EnsureOnboardingComplete
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->hasOrganization()) {
-            return to_route('onboarding.organization.create');
+        if ($request->user()->hasOrganization()) {
+            return to_route('onboarding.invite.create');
         }
 
         return $next($request);
